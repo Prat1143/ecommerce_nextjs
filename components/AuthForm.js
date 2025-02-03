@@ -44,45 +44,87 @@ const AuthForm = ({ isLogin }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
-            <h2 className="text-lg font-bold">{isLogin ? 'Login' : 'Register'}</h2>
-            {error && <p className="text-red-500">{error}</p>}
-            {!isLogin && (
-                <div>
-                    <label>Name:</label>
+        <div className="flex justify-center items-center min-h-screen bg-gray-100 py-8">
+            <form onSubmit={handleSubmit} className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+                <h2 className="text-2xl font-semibold text-center mb-6">{isLogin ? 'Login' : 'Register'}</h2>
+                {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
+                {!isLogin && (
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700" htmlFor="name">
+                            Name
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                        />
+                    </div>
+                )}
+
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700" htmlFor="email">
+                        Email
+                    </label>
                     <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="border rounded p-2 w-full"
+                        className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                     />
                 </div>
-            )}
-            <div>
-                <label>Email:</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="border rounded p-2 w-full"
-                />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="border rounded p-2 w-full"
-                />
-            </div>
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-                {isLogin ? 'Login' : 'Register'}
-            </button>
-        </form>
+
+                <div className="mb-6">
+                    <label className="block text-sm font-medium text-gray-700" htmlFor="password">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                    />
+                </div>
+
+                <button
+                    type="submit"
+                    className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
+                >
+                    {isLogin ? 'Login' : 'Register'}
+                </button>
+
+                <div className="mt-4 text-center text-sm">
+                    {isLogin ? (
+                        <span>
+                            Don't have an account?{' '}
+                            <button
+                                onClick={() => router.push('/auth/register')}
+                                className="text-blue-600 hover:underline"
+                            >
+                                Register here
+                            </button>
+                        </span>
+                    ) : (
+                        <span>
+                            Already have an account?{' '}
+                            <button
+                                onClick={() => router.push('/auth/login')}
+                                className="text-blue-600 hover:underline"
+                            >
+                                Login here
+                            </button>
+                        </span>
+                    )}
+                </div>
+            </form>
+        </div>
     );
 };
 

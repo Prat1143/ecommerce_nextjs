@@ -11,7 +11,7 @@ const HomePage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(false);
-    const { token } = useAuth();
+    const { user } = useAuth();
 
     const fetchItems = async (page, searchQuery) => {
         setLoading(true);
@@ -37,6 +37,7 @@ const HomePage = () => {
 
     return (
         <div className="container mx-auto p-4">
+            <h1 className='text-center font-bold text-2xl mb-6'>Welcome {user?.name}</h1>
             <form onSubmit={handleSearch} className="flex justify-center mb-4">
                 <input
                     type="text"
