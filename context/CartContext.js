@@ -9,7 +9,7 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
-    const { token } = useAuth();
+    const { token, user } = useAuth();
 
     // Load cart from local storage on initial load
     useEffect(() => {
@@ -27,6 +27,10 @@ export const CartProvider = ({ children }) => {
 
     const updateCartItemQuantity = async (itemId, quantity) => {
         try {
+            if (!user) {
+                toast.error('Please login or register to add products to cart.');
+                return;
+            }
             const response = await apiCall('/cart/update', 'POST', { itemId, quantity }, token);
             const updatedCartItems = response.items.map(cartItem => ({
                 _id: cartItem._id,
@@ -35,7 +39,26 @@ export const CartProvider = ({ children }) => {
                 totalCost: cartItem.totalCost,
             }));
 
-            
+            setCart(updatedCartItems);
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+    const productDetailsAddItem = async (itemId, quantity) => {
+        try {
+            if (!user) {
+                toast.error('Please login or register to add products to cart.');
+                return;
+            }
+            const response = await apiCall('/cart/update', 'POST', { itemId, quantity }, token);
+            const updatedCartItems = response.items.map(cartItem => ({
+                _id: cartItem._id,
+                itemId: cartItem.item,
+                quantity: cartItem.quantity,
+                totalCost: cartItem.totalCost,
+            }));
+            toast.success('Item added to cart successfully!');
             setCart(updatedCartItems);
         } catch (error) {
             console.error(error.message);
@@ -91,6 +114,11 @@ export const CartProvider = ({ children }) => {
 
     const addToCart = async(item) => {
         try {
+            if (!user) {
+                toast.error('Please login or register to add products to cart.');
+                return;
+            }
+            
             const response = await apiCall('/cart/add', 'POST', {itemId:item?._id, quantity:1}, token); // Call API to add item
             if(response) {
                 const updatedCartItems = response.items.map(cartItem => ({
@@ -101,7 +129,6 @@ export const CartProvider = ({ children }) => {
                 }));
                 setCart(updatedCartItems);
                 toast.success('Item added to cart successfully!');
-
             }
         } catch (error) {
             console.error(error.message);
@@ -114,7 +141,7 @@ export const CartProvider = ({ children }) => {
     };
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, updateCartItemQuantity, removeFromCart, clearCart, getTotalItems, getTotalAmount, getProductQuantity }}>
+        <CartContext.Provider value={{ cart, addToCart, updateCartItemQuantity, removeFromCart, clearCart, getTotalItems, getTotalAmount, getProductQuantity, productDetailsAddItem }}>
             {children}
         </CartContext.Provider>
     );

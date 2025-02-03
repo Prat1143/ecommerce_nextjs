@@ -10,7 +10,7 @@ const ProductDetailsPage = ({params}) => {
     const { id } = use(params);
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(0);
-    const { updateCartItemQuantity, getProductQuantity } = useCart();
+    const { productDetailsAddItem, getProductQuantity } = useCart();
 
     useEffect(() => {
         if (id) {
@@ -26,8 +26,9 @@ const ProductDetailsPage = ({params}) => {
     }, [id, getProductQuantity]);
 
     const handleAddToCart = () => {
-        updateCartItemQuantity( product?._id, quantity);
-        toast.success('Items added to cart successfully!');
+        if(quantity>0) {
+            productDetailsAddItem( product?._id, quantity);
+        }
     };
 
     const increaseQuantity = () => {

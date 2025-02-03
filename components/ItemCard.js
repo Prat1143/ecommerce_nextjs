@@ -23,7 +23,7 @@ const ItemCard = ({ item }) => {
     return (
         <div className="border rounded-lg shadow-md p-4 m-2 flex flex-col h-full">
                 <Link href={`/product/${item._id}`} passHref>
-                    <img src={item.imageSrc} alt={item.title} className="h-48 w-full object-cover rounded-t-lg" onError={handleError} />
+                    <img src={item.imageSrc} alt={item.title} className="h-48 w-full object-contain rounded-t-lg" onError={handleError} />
                     <h3 className="text-lg font-semibold mt-2 line-clamp-2">{item.title}</h3> {/* Use line-clamp for title */}
                     <p className="text-gray-600">{item.type}</p>
                     <p className="text-xl font-bold mt-2">₹{item.variantPrice?.toFixed(2)}</p>
