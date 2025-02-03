@@ -108,8 +108,13 @@ export const CartProvider = ({ children }) => {
         }
     }
 
+    const getProductQuantity = (productId) => {
+        const product = cart.find(item => item.itemId === productId || item.item === productId);
+        return product ? product.quantity : 0; // Return quantity or 0 if not found
+    };
+
     return (
-        <CartContext.Provider value={{ cart, addToCart, updateCartItemQuantity, removeFromCart, clearCart, getTotalItems, getTotalAmount }}>
+        <CartContext.Provider value={{ cart, addToCart, updateCartItemQuantity, removeFromCart, clearCart, getTotalItems, getTotalAmount, getProductQuantity }}>
             {children}
         </CartContext.Provider>
     );
