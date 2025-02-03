@@ -10,13 +10,12 @@ const ProductDetailsPage = ({params}) => {
     const { id } = use(params);
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(0);
-    const { addToCart, updateCartItemQuantity, getProductQuantity } = useCart(); // Get the addToCart function from context
+    const { updateCartItemQuantity, getProductQuantity } = useCart();
 
     useEffect(() => {
         if (id) {
-            // Fetch product details from the backend
             const fetchProduct = async () => {
-                const response = await apiCall(`/items/getProductDetails/${id}`); // Adjust the API endpoint as necessary
+                const response = await apiCall(`/items/getProductDetails/${id}`);
                 setProduct(response);
                 const cartQuantity = getProductQuantity(response._id);
                 setQuantity(cartQuantity >= 0 ? cartQuantity : 1);
@@ -36,10 +35,10 @@ const ProductDetailsPage = ({params}) => {
     };
 
     const decreaseQuantity = () => {
-        setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent quantity from going below 1
+        setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
     };
 
-    if (!product) return <p>Loading...</p>; // Loading state
+    if (!product) return <p>Loading...</p>;
 
     return (
         <div className="container mx-auto p-4">
